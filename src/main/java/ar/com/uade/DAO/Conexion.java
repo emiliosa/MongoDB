@@ -10,120 +10,71 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Conexion {
-	private static MongoCollection<Document> inversiones;
+    private static MongoCollection<Document> inversiones;
 
-	private static MongoCollection<Document> getInversiones() {
-		if (inversiones == null) {
-			MongoClient mongoClient = MongoClients.create("mongodb://root:example@localhost:27018/?authSource=admin");
-			MongoDatabase database = mongoClient.getDatabase("test");
-			inversiones = database.getCollection("inversiones");
-		}
+    private static MongoCollection<Document> getInversiones() {
+        if (inversiones == null) {
+            MongoClient mongoClient = MongoClients.create("mongodb://root:example@localhost:27018/?authSource=admin");
+            MongoDatabase database = mongoClient.getDatabase("test");
+            inversiones = database.getCollection("inversiones");
+        }
 
-		return inversiones;
-	}
+        return inversiones;
+    }
 
-	public static Document setDocument(Inversion inversion) {
-		Document inversionDoc = new Document();
-		for (Field field: Inversion.class.getDeclaredFields()) {
-			Object value = Conexion.callGetter(inversion, field.getName());
-			boolean expression = true;
-			try {
-				expression = (value != null && Integer.parseInt(value.toString()) != 0 && Double.parseDouble(value.toString()) != 0.00);
-			} catch (NumberFormatException e) {
-				// nothing here
-			} finally {
-				if (expression) {
-					inversionDoc.put(field.getName(), value);
-				}
-			}
-		}
+    public static List<String> recuperar(Document filtro) {
+        System.out.println("RECUPERAR");
+        System.out.println(filtro.toJson());
 
-		return inversionDoc;
-	}
+        List<String> resultados = new ArrayList<>();
 
-	public static List<String> recuperar(Document filtro) {
-		System.out.println("RECUPERAR");
-		System.out.println(filtro.toJson());
+        for (Document document : getInversiones().find(filtro)) {
+            resultados.add(document.toJson());
+        }
 
-		List<String> resultados = new ArrayList<>();
+        return resultados;
+    }
 
-		for (Document document : getInversiones().find(filtro)) {
-			resultados.add(document.toJson());
-		}
+    public static void guardar(Inversion inversion) {
+        System.out.println("GUARDAR");
+        System.out.println(inversion);
 
-		return resultados;
-	}
+        getInversiones().insertOne(inversion.toDocument());
+    }
 
-	public static void guardar(Inversion inversion) {
-		System.out.println("GUARDAR");
-		System.out.println(inversion);
+    /**
+     * Se actualizan las colecciones incrustadas")
+     */
+    public static void actualizar(Document filtro, Inversion inversion) {
+        System.out.println("ACTUALIZAR");
+        System.out.println("Filtros: " + filtro.toJson() + "\nInversión: " + inversion);
 
-		Document inversionDoc = new Document();
-		inversionDoc
-				.append("fecha", inversion.getFecha())
-				.append("fechaCotizacionActual", inversion.getFechaCotizacionActual())
-				.append("codigo", inversion.getCodigo())
-				.append("tipoOperacion", inversion.getTipoOperacion().toString())
-				.append("cantidad", inversion.getCantidad())
-				.append("cotizacion", inversion.getCotizacion())
-				.append("cotizacionActual", inversion.getCotizacionActual())
-				.append("monto", inversion.getMonto());
+        for (Document document : getInversiones().find(filtro)) {
+            System.out.println(document.toJson());
+        }
 
-		getInversiones().insertOne(inversionDoc);
-	}
+        getInversiones().updateMany(
+                filtro,
+                combine(
+                        addEachToSet("cotizaciones", inversion.getCotizacionesBson()),
+                        addEachToSet("historialOperaciones", inversion.getHistorialOperacionesBson()),
+                        addEachToSet("informes", inversion.getInformesBson())
+                )
+        );
+    }
 
-	public static void actualizar(Document filtro, Inversion inversion) {
-		System.out.println("ACTUALIZAR");
-		System.out.println("Filtros: " + filtro.toJson() + "\nInversión: " + inversion);
+    public static void eliminar(Document filtro) {
+        System.out.println("ELIMINAR");
+        System.out.println(filtro.toJson());
 
-		for (Document document : getInversiones().find(filtro)) {
-			System.out.println(document.toJson());
-		}
+        long result = getInversiones().deleteMany(filtro).getDeletedCount();
 
-		getInversiones().updateMany(
-				filtro,
-				combine(
-						set("fecha", inversion.getFecha()),
-						currentDate("fechaCotizacionActual"),
-						set("codigo", inversion.getCodigo()),
-						set("tipoOperacion", inversion.getTipoOperacion()),
-						set("cantidad", inversion.getCantidad()),
-						set("cotizacion", inversion.getCotizacion()),
-						set("cotizacionActual", inversion.getCotizacionActual()),
-						set("monto", inversion.getMonto())
-				)
-		);
-	}
-
-	public static void eliminar(Document filtro) {
-		System.out.println("ELIMINAR");
-		System.out.println(filtro.toJson());
-
-		long result = getInversiones().deleteMany(filtro).getDeletedCount();
-
-		System.out.println(result);
-	}
-
-	private static Object callGetter(Object obj, String fieldName){
-		PropertyDescriptor pd;
-		Object result = null;
-		try {
-			pd = new PropertyDescriptor(fieldName, obj.getClass());
-			result = pd.getReadMethod().invoke(obj);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | IntrospectionException e) {
-			e.printStackTrace();
-		}
-
-		return result;
-	}
+        System.out.println(result);
+    }
 }
 
 

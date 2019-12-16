@@ -2,9 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d73a992-7528-452b-9adc-4a91c192bf77" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_json_json_20190722.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ar/com/uade/Bean/Asesor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ar/com/uade/Bean/Informe.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ar/com/uade/Bean/Mercado.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ar/com/uade/Bean/Moneda.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ar/com/uade/Bean/Operacion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ar/com/uade/Bean/Operador.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MongoDB.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MongoDB.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/com/uade/Bean/Inversion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/com/uade/Bean/Inversion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/com/uade/DAO/Conexion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/com/uade/DAO/Conexion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ar/com/uade/TPOMongoDB/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ar/com/uade/TPOMongoDB/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/MongoDB.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/com/uade/Bean/Inversion.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/com/uade/Bean/Inversion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/com/uade/DAO/Conexion.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/com/uade/DAO/Conexion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ar/com/uade/TPOMongoDB/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ar/com/uade/TPOMongoDB/App.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,6 +42,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -89,6 +104,8 @@
       <workItem from="1574300253658" duration="7083000" />
       <workItem from="1574347618404" duration="5380000" />
       <workItem from="1574539669718" duration="11837000" />
+      <workItem from="1576112603049" duration="1915000" />
+      <workItem from="1576356737209" duration="28270000" />
     </task>
     <servers />
   </component>
@@ -100,10 +117,28 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ar/com/uade/TPOMongoDB/App.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="inversion.getInformesBson()" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
